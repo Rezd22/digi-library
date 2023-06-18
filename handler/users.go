@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"paa/model"
 	"paa/utils"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -94,5 +93,5 @@ func (h *Handler) LoginUser(c *gin.Context) {
 
 	utils.SetCookie(c, token)
 
-	c.Redirect(http.StatusFound, "/book")
+	c.Redirect(http.StatusFound, "/dasboard")
 }

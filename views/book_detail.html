@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ .title }}</title>
+    <link rel="stylesheet" href="/static/css/book_detail.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Book Detail</h1>
+      <div class="book-card">
+        <img src="https://covers.openlibrary.org/b/id/{{ .Book.CoverID }}-M.jpg" alt="Book Cover" />
+        <h4>{{ .Book.Title }}</h4>
+        <p>Author: {{ .Book.Author }}</p>
+        <p>First Published: {{ .Book.FirstPublishYear }}</p>
+        <p>Publisher: {{ .Book.Publisher }}</p>
+      </div>
+      <a href="/daftar"><button type="button">Back to Books</button></a>
+    </div>
+  </body>
+</html>

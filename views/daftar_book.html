@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home</title>
+    <style>
+      /* Tambahkan gaya CSS sesuai kebutuhan Anda */
+      .book-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .book-card {
+        width: 200px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        text-align: center;
+      }
+
+      .book-card img {
+        width: 150px;
+        height: auto;
+      }
+
+      .book-card h4 {
+        margin-top: 10px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .book-card p {
+        margin-top: 5px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="book-container">
+      {{ range .Books }}
+      <div class="book-card">
+        <img src="https://covers.openlibrary.org/b/id/{{ .CoverID }}-M.jpg" alt="Book Cover" />
+        <h4>{{ .Title }}</h4>
+        <p>Author: {{ if .AuthorName }}{{ index .AuthorName 0 }}{{ else }}No Author Name Found{{ end }}</p>
+        <p>First Published: {{ if .FirstPublishYear }}{{ .FirstPublishYear }}{{ else }}No Publish Year Found{{ end }}</p>
+        <p>Publisher: {{ if .Publisher }}{{ index .Publisher 0 }}{{ else }}No Publisher Found{{ end }}</p>
+      </div>
+      {{ end }}
+    </div>
+  </body>
+</html>
