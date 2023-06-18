@@ -97,7 +97,7 @@ func main() {
 	r.GET("/daftar",bookssHandler)
 	r.GET("/dasboard",DashboardHandler)
 	r.GET("/profile",ProfileHandler)
-	r.GET("/request",ProfileHandler)
+	r.GET("/request",RequestHandler)
 
 	
 
@@ -135,6 +135,7 @@ func ProfileHandler(c *gin.Context) {
 		"title": "Contact Us",
 
 	})}
+
 func DashboardHandler(c *gin.Context) {
 	books, err := getRandomBooks()
 	if err != nil {
