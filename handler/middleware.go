@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"paa/utils"
 
@@ -18,11 +19,12 @@ func (h *Handler) IsLogin(c *gin.Context) {
 	tokenString := cookie.Value
 
 	// Validate token
-	_, err = utils.ValidateToken(tokenString)
+	token, err := utils.ValidateToken(tokenString)
 	if err != nil {
 		c.Redirect(http.StatusFound, "/")
 		return
 	}
-
+	login := fmt.Sprintf("%v", token)
+	c.Set("username", login)
 	c.Next()
 }

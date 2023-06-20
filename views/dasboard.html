@@ -73,9 +73,9 @@
         </div>
         <div class="main">
           <div class="list-item">
-            <a href="#">
+            <a href="/book">
               <img src="/static/image/b4.png" alt="" class="icon" />
-              <span class="description">History</span>
+              <span class="description">List Request</span>
             </a>
           </div>
         </div>
@@ -83,10 +83,12 @@
           <div class="profile-content">
             <img src="/static/image/profile.png" alt="" class="icon" />
           </div>
+          <a href="/profile">
           <div class="name-job">
-            <div class="profile-name">Veri Ramadhan</div>
-            <div class="status">user</div>
+            <div class="profile-name">{{.User}}</div>
+            <div class="status" >{{.User}}</div>
           </div>
+        </a>
           <i class="bx bx-brightness-half bx-spin bx-rotate-90"></i>
         </div>
       </aside>
@@ -99,7 +101,9 @@
           <div>
             <input type="text" id="search-input" placeholder="Search books..." />
             <button id="search-button" class="btn-search">Search</button>
-            <a href="/" class="btn-logout" style="cursor: pointer">Logout</a>
+            <form action="/logout" method="post">
+              <button type="submit"> Logout</button>
+            </form>
           </div>
         </div>
       </div>

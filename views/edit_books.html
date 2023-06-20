@@ -14,12 +14,12 @@
 			<h1>Update Book</h1>
 		</div>
 		<form method="post" action="/book/{{.ID}}">
-			<label for="title">Title : </label>
+			<label for="title">Book Title : </label>
 			<input type="text" id="title" name="title" value="{{.Title}}" required>
 			<label for="author">Author : </label>
 			<input type="text" id="author" name="author" value="{{.Author}}" required>
-			<label for="release_year">Release Year : </label>
-			<input type="text" id="release_year" name="release_year" value="{{.ReleaseYear}}" required>
+			<label for="email">Email : </label>
+			<input type="text" id="email" name="email" value="{{.ReleaseYear}}" required>
 			<label for="description">Description : </label>
 			<input type="text" id="description" name="description" value="{{.Description}}" required>
 			<button type="submit">Update Book</button>

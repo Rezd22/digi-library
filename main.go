@@ -21,7 +21,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-const baseURL = "https://openlibrary.org/search.json?q=*&limit=10"// Mengambil 10 buku secara acak
+
+const baseURL = "https://openlibrary.org/search.json?q=*&limit=10" // Mengambil 10 buku secara acak
 
 type Book struct {
 	Title            string   `json:"title"`
@@ -31,13 +32,11 @@ type Book struct {
 	Publisher        []string `json:"publisher"`
 }
 
-
-
 var credDB = model.Cred{
 	Host:     "localhost",
 	User:     "postgres",
-	Password: "gedanggoreng",
-	DBName:   "boks",
+	Password: "1234",
+	DBName:   "books",
 	Port:     5432,
 }
 
@@ -46,7 +45,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("error connecting database: %v", err)
 	}
-		// Mengatur seed untuk generator angka acak
+	// Mengatur seed untuk generator angka acak
 	rand.Seed(time.Now().UnixNano())
 
 	file, err := os.Open("static/image/buku.jpg")
@@ -82,6 +81,7 @@ func main() {
 	// handler api auth
 	r.POST("/register", handler.CreateUser)
 	r.POST("/login", handler.LoginUser)
+	r.POST("/logout", handler.LogoutUser)
 
 	// handler api book
 	r.POST("/book", handler.IsLogin, handler.CreateBook)
@@ -91,15 +91,13 @@ func main() {
 
 	// handler page auth
 	r.GET("/", HomeHandler)
-	r.GET("/Kontak",ContackHandler)
+	r.GET("/Kontak", ContackHandler)
 	r.GET("/login", handler.ShowLoginPage)
 	r.GET("/register", handler.ShowRegisterPage)
-	r.GET("/daftar",bookssHandler)
-	r.GET("/dasboard",DashboardHandler)
-	r.GET("/profile",ProfileHandler)
-	r.GET("/request",RequestHandler)
-
-	
+	r.GET("/daftar", bookssHandler)
+	r.GET("/dasboard", handler.IsLogin, DashboardHandler)
+	r.GET("/profile", handler.IsLogin, ProfileHandler)
+	r.GET("/request", handler.IsLogin, RequestHandler)
 
 	// handler page book
 	r.POST("/add-book", handler.IsLogin, handler.ShowAddBookPage)
@@ -112,7 +110,7 @@ func main() {
 	r.Run(":8080")
 }
 
-//handler untuk halaman Utama("/")
+// handler untuk halaman Utama("/")
 func HomeHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "home.html", gin.H{
 		"title": "Home",
@@ -126,26 +124,29 @@ func RequestHandler(c *gin.Context) {
 func ContackHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "contact.html", gin.H{
 		"title": "Contact Us",
-
 	})
-	
+
 }
 func ProfileHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "profile.html", gin.H{
 		"title": "Contact Us",
-
-	})}
+	})
+}
 
 func DashboardHandler(c *gin.Context) {
+	// c.MustGet()
 	books, err := getRandomBooks()
 	if err != nil {
 		log.Fatal("Failed to get random books:", err)
 	}
+
 	c.HTML(http.StatusOK, "dasboard.html", gin.H{
 		"Books": books,
 		"title": "Dasboard",
-
+		// "User" : 
 	})
+
+	
 }
 func bookssHandler(c *gin.Context) {
 	// Mengambil data buku secara acak dari Open Library API
@@ -160,39 +161,33 @@ func bookssHandler(c *gin.Context) {
 	})
 }
 func getRandomBooks() ([]Book, error) {
-		// Membuat klien HTTP menggunakan resty.Client
-		client := resty.New()
-	
-		// Mengirim permintaan GET ke API Open Library
-		response, err := client.R().
-			SetHeader("Content-Type", "application/json").
-			Get(baseURL)
-	
-		if err != nil {
-			return nil, err
-		}
-		if response.StatusCode() != http.StatusOK {
-			return nil, err
-		}
-		// Menguraikan respons JSON ke dalam variabel yang sesuai
-		var data struct {
-			Docs []Book `json:"docs"`
-		}
-		err = json.Unmarshal(response.Body(), &data)
-		if err != nil {
-			log.Fatal("Failed to parse response:", err)
-		}
-	
-		// Mengacak urutan buku
-		rand.Shuffle(len(data.Docs), func(i, j int) {
-			data.Docs[i], data.Docs[j] = data.Docs[j], data.Docs[i]
-		})	
-		// Mengembalikan semua buku
-		return data.Docs, nil
+	// Membuat klien HTTP menggunakan resty.Client
+	client := resty.New()
+
+	// Mengirim permintaan GET ke API Open Library
+	response, err := client.R().
+		SetHeader("Content-Type", "application/json").
+		Get(baseURL)
+
+	if err != nil {
+		return nil, err
 	}
-	
+	if response.StatusCode() != http.StatusOK {
+		return nil, err
+	}
+	// Menguraikan respons JSON ke dalam variabel yang sesuai
+	var data struct {
+		Docs []Book `json:"docs"`
+	}
+	err = json.Unmarshal(response.Body(), &data)
+	if err != nil {
+		log.Fatal("Failed to parse response:", err)
+	}
 
-
-	
-	
-
+	// Mengacak urutan buku
+	rand.Shuffle(len(data.Docs), func(i, j int) {
+		data.Docs[i], data.Docs[j] = data.Docs[j], data.Docs[i]
+	})
+	// Mengembalikan semua buku
+	return data.Docs, nil
+}

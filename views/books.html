@@ -6,22 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/static/css/books.css">
 	<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-  <title>PAA Book Listing</title>
+  <title>Books Request</title>
 </head>
 <body>
   <main>
     <div>
-      <h1>Book Listing</h1>
-      <form method="post" action="/add-book">
+      <h1>Books Request</h1>
+      <!-- <form method="post" action="/request">
         <button type="submit">Add Buku</button>
-      </form>
+      </form> -->
     </div>
     <table>
       <thead>
         <tr>
-          <th>Title</th>
+          <th>Book Title</th>
           <th>Author</th>
-          <th>Release Year</th>
+          <th>Email</th>
+          <th>Description</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -30,7 +31,8 @@
         <tr>
           <td>{{.Title}}</td>
           <td>{{.Author}}</td>
-          <td>{{.ReleaseYear}}</td>
+          <td>{{.Email}}</td>
+          <td>{{.Description}}</td>
           <td><form method="post" action="/edit-book/{{.Id}}">
               <button type="submit">update</button>
             </form>
@@ -43,6 +45,5 @@
       </tbody>
     </table>
   </main>
-  <p class="message">{{.Message}}</p>
 </body>
 </html>

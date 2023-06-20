@@ -15,6 +15,7 @@ func GenerateToken(user model.User) (string, error) {
 	claims := token.Claims.(jwt.MapClaims)
 
 	claims["user_id"] = user.ID
+	claims["username"] = user.Username
 	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 
 	tokenString, err := token.SignedString(jwtKey)
@@ -26,7 +27,7 @@ func GenerateToken(user model.User) (string, error) {
 	return tokenString, nil
 }
 
-func ValidateToken(tokenStr string) (jwt.MapClaims, error) {
+func ValidateToken(tokenStr string) (any, error) {
 	// parse token
 	token, err := jwt.Parse(tokenStr, func(t *jwt.Token) (interface{}, error) {
 		//check signing method
@@ -45,5 +46,5 @@ func ValidateToken(tokenStr string) (jwt.MapClaims, error) {
 		return nil, fmt.Errorf("invalid tokennn")
 	}
 
-	return claims, nil
+	return claims["username"], nil
 }

@@ -4,8 +4,18 @@ import (
 	"net/http"
 	"paa/model"
 	"paa/utils"
+
 	"github.com/gin-gonic/gin"
 )
+
+func (h *Handler) GetUserByUsername(c *gin.Context) {
+	
+	profile := c.MustGet("username").(string)
+	c.HTML(http.StatusOK, "dasboard.html", gin.H{
+		"User":  profile,
+		"title": "Dasboard",
+	})
+}
 
 func (h *Handler) CreateUser(c *gin.Context) {
 	var user model.User
@@ -46,6 +56,7 @@ func (h *Handler) LoginUser(c *gin.Context) {
 		}
 
 		c.HTML(http.StatusBadRequest, "login.html", resp)
+
 		return
 	}
 
@@ -57,6 +68,7 @@ func (h *Handler) LoginUser(c *gin.Context) {
 		}
 
 		c.HTML(http.StatusBadRequest, "login.html", resp)
+
 		return
 	}
 
@@ -84,14 +96,25 @@ func (h *Handler) LoginUser(c *gin.Context) {
 	if err != nil {
 		resp := model.Response{
 			Data:    nil,
-			Message: "error creating token",
+			Message: err.Error(),
 		}
 
 		c.HTML(http.StatusBadRequest, "login.html", resp)
+
 		return
 	}
 
 	utils.SetCookie(c, token)
 
 	c.Redirect(http.StatusFound, "/dasboard")
+}
+
+func (h *Handler) LogoutUser(c *gin.Context) {
+	utils.DelCookie(c)
+	resp := model.Response{
+		Data:    nil,
+		Message: "logout",
+	}
+
+	c.HTML(http.StatusOK, "login.html", resp)
 }

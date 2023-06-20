@@ -70,23 +70,17 @@
             </a>
           </div>
         </div>
-        <div class="main">
-          <div class="list-item">
-            <a href="#">
-              <img src="/static/image/b4.png" alt="" class="icon" />
-              <span class="description">History</span>
-            </a>
-          </div>
-        </div>
         <div class="profile">
           <div class="profile-content">
             <a href="/profile">
             <img src="/static/image/profile.png" alt="" class="icon" />
           </div>
-          <div class="name-job">
-            <div class="profile-name">Veri Ramadhan</div>
-            <div class="status">user</div>
-          </div>
+          <a href="/profile">
+            <div class="name-job">
+              <div class="profile-name">{{ .User.Username }}</div>
+              <div class="status">user</div>
+            </div>
+          </a>
           <i class="bx bx-brightness-half bx-spin bx-rotate-90"></i>
         </div>
       </aside>
@@ -105,7 +99,7 @@
 
       </div>
       <div class="book-container">
-      <div class="row">
+      <div class="form-content">
         <div class="col-md-6">
             <div class="">
               <div class="panel-heading">

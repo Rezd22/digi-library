@@ -13,8 +13,8 @@ func (b *booksRepo) CreateBook(book *model.Book) error {
 
 func (b *booksRepo) GetAllBooks() ([]model.GetBooks, error) {
 	var books []model.GetBooks
-	query := `select id, title, author, release_year from books`
-	err := b.db.Raw(query).Scan(&books).Error
+	// query := `select id, title, author, release_year from books`
+	err := b.db.Table("books").Find(&books).Error
 	if err != nil {
 		return nil, err
 	}

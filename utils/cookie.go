@@ -17,3 +17,14 @@ func SetCookie(c *gin.Context, tokenString string) {
 
 	http.SetCookie(c.Writer, &cookie)
 }
+
+func DelCookie(c *gin.Context) {
+	cookie := http.Cookie{
+		Name:     "jwt",
+		Value:   "",
+		Expires:  time.Now(),
+		HttpOnly: true,
+	}
+
+	http.SetCookie(c.Writer, &cookie)
+}

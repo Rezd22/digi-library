@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"paa/model"
 	"strconv"
@@ -11,6 +12,7 @@ import (
 func (h *Handler) CreateBook(c *gin.Context) {
 	var book model.Book
 	err := c.ShouldBind(&book)
+	fmt.Println(book)
 
 	if err != nil {
 		resp := model.Response{
@@ -18,7 +20,7 @@ func (h *Handler) CreateBook(c *gin.Context) {
 			Message: "error binding book",
 		}
 
-		c.HTML(http.StatusBadRequest, "add_books.html", resp)
+		c.HTML(http.StatusBadRequest, "request_book.html", resp)
 		return
 	}
 
@@ -29,7 +31,7 @@ func (h *Handler) CreateBook(c *gin.Context) {
 			Message: "error creating book",
 		}
 
-		c.HTML(http.StatusBadRequest, "add_books.html", resp)
+		c.HTML(http.StatusBadRequest, "request_book.html", resp)
 		return
 	}
 
@@ -44,11 +46,14 @@ func (h *Handler) CreateBook(c *gin.Context) {
 func (h *Handler) GetAllBooks(c *gin.Context) {
 	books, err := h.booksRepo.GetAllBooks()
 	if err != nil {
+
 		c.HTML(http.StatusInternalServerError, "error.tmpl", gin.H{
 			"message": "Error getting all books",
 		})
 		return
 	}
+
+	fmt.Printf("%+v", books)
 
 	resp := model.Response{
 		Data:    books,
