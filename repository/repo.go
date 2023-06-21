@@ -9,7 +9,7 @@ import (
 type BooksRepo interface {
 	CreateUser(user *model.User) error
 	GetUserByUsername(username string) (model.User, error)
-
+	GetUserById(id int) (model.User, error)
 	CreateBook(book *model.Book) error
 	GetAllBooks() ([]model.GetBooks, error)
 	GetBookById(id string) (model.Book, error)

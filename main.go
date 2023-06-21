@@ -134,7 +134,7 @@ func ProfileHandler(c *gin.Context) {
 }
 
 func DashboardHandler(c *gin.Context) {
-	// c.MustGet()
+	username := c.MustGet("username").(string)
 	books, err := getRandomBooks()
 	if err != nil {
 		log.Fatal("Failed to get random books:", err)
@@ -143,7 +143,7 @@ func DashboardHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "dasboard.html", gin.H{
 		"Books": books,
 		"title": "Dasboard",
-		// "User" : 
+		"User" : username,
 	})
 
 	

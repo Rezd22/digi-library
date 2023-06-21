@@ -22,3 +22,15 @@ func (b *booksRepo) GetUserByUsername(username string) (model.User, error) {
 
 	return user, nil
 }
+
+func (b *booksRepo) GetUserById(id int) (model.User, error) {
+	var user model.User 
+
+	query := `select * from users where id = ?`
+	err := b.db.Raw(query, id).Scan(&user).Error
+	if err != nil {
+		return model.User{}, err
+	}
+
+	return user, nil
+}

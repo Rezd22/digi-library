@@ -16,6 +16,7 @@ func GenerateToken(user model.User) (string, error) {
 
 	claims["user_id"] = user.ID
 	claims["username"] = user.Username
+	claims["is_admin"] = user.User_type
 	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 
 	tokenString, err := token.SignedString(jwtKey)
@@ -25,6 +26,7 @@ func GenerateToken(user model.User) (string, error) {
 	}
 
 	return tokenString, nil
+
 }
 
 func ValidateToken(tokenStr string) (any, error) {
